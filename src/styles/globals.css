@@ -25,3 +25,9 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+@layer utilities {
+  .wrapper{
+    @apply m-auto w-[95%] max-w-[1100px]
+  }
+}
