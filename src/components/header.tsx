@@ -6,7 +6,7 @@ import React from "react";
 const Header = () => {
   return (
     <header className="fixed top-0 w-full bg-white">
-      <div className="wrapper m-auto w-[95%] max-w-[1100px]">
+      <div className="wrapper">
         <div className="flex items-center justify-between py-1.5">
           <h1>
             <Link href={"/"}>
@@ -24,7 +24,7 @@ const Header = () => {
                     {menu.title}
                   </Link>
                   {Array.isArray(menu.dropdown) && menu.dropdown.length > 0 && (
-                    <ul className="hidden md:group-hover:block bg-black text-white flex flex-col absolute top-[90%]">
+                    <ul className="hidden bg-black text-white md:group-hover:flex flex-col absolute top-[90%]">
                       {menu.dropdown.map((subMenu) => (
                         <li key={subMenu.title}>
                           <Link href={subMenu.href} className="block px-3.5 py-5">{subMenu.title}</Link>
