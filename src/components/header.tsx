@@ -1,8 +1,8 @@
 import { siteConfig } from "@/constants/siteConfig";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, MenuIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 
 interface IMenu {
   menu: {
@@ -17,16 +17,56 @@ interface IMenu {
 }
 
 const Header = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
   return (
     <header className="fixed top-0 w-full bg-white z-20">
       <div className="wrapper">
         <div className="flex items-center justify-between py-[5px]">
           <h1 className="mt-[5px]">
             <Link href={"/"}>
-              <Image src={siteConfig.logo.src} width={170} height={50} alt='Unico Connect Logo' />
+              <Image
+                src={siteConfig.logo.src}
+                width={170}
+                height={50}
+                alt="Unico Connect Logo"
+              />
             </Link>
           </h1>
-          <nav>
+          
+          {/* Hamburger icon for mobile */}
+          <button
+            className="block md:hidden text-white p-2 focus:outline-none"
+            onClick={toggleMenu}
+          >
+            <MenuIcon className="w-6 h-6 text-black " />
+          </button>
+          {/* Hidden menu for mobile */}
+          <div
+            className={`${
+              isOpen ? "block" : "hidden"
+            } md:hidden fixed top-[68px] left-0 w-full h-full bg-black text-white transition-all ease-in-out duration-300`}
+          >
+            {/* Add your menu items here */}
+            <ul className="flex flex-col items-center justify-center h-full space-y-4">
+              {siteConfig.nav.map((menu, i) => (
+                <Link
+                  key={i}
+                  href={menu.href}
+                  className={`block px-5 py-2 text-white`}
+                >
+                  {menu.title}
+                </Link>
+              ))}
+              {/* Add more menu items as needed */}
+            </ul>
+          </div>
+
+          <nav className="hidden md:block">
             <ul className="flex justify-between items-center text-sm font-medium">
               {siteConfig.nav.map((menu) => (
                 <Menu key={menu.title} menu={menu} />
@@ -42,7 +82,11 @@ const Header = () => {
 const Menu = ({ menu }: IMenu) => {
   return (
     <li
-      className={`${menu?.dropdown && menu?.dropdown?.length > 0 ? "group relative z-10" : ""}`}
+      className={`${
+        menu?.dropdown && menu?.dropdown?.length > 0
+          ? "group relative z-10"
+          : ""
+      }`}
     >
       <Link
         href={menu.href}
